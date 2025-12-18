@@ -9,7 +9,11 @@ app.use(express.json({ limit: '10mb' }));
 app.post('/upload_data', async (req, res) => {
   console.log("📥 Reçu :", req.body);
   try {
-    const response = await axios.post('https://iot.pcs-agri.com/upload_data', req.body);
+    const response = await axios.post(
+      'https://iot.pcs-agri.com/upload_data',
+      req.body,
+      { maxRedirects: 0 }
+    );
     res.status(response.status).send("OK");
   } catch (err) {
     res.status(500).send("Erreur proxy");
@@ -18,7 +22,11 @@ app.post('/upload_data', async (req, res) => {
 
 app.post('/upload_chunk', async (req, res) => {
   try {
-    const response = await axios.post('https://iot.pcs-agri.com/upload_chunk', req.body);
+    const response = await axios.post(
+      'https://iot.pcs-agri.com/upload_chunk',
+      req.body,
+      { maxRedirects: 0 }
+    );
     res.status(response.status).send("OK");
   } catch (err) {
     res.status(500).send("Erreur chunk");
