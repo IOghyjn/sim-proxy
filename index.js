@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 8080;
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -35,3 +36,4 @@ app.post('/upload_chunk', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Proxy actif sur port ${PORT}`));
+
