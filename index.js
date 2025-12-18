@@ -39,6 +39,6 @@ app.post('/upload_chunk', async (req, res) => {
   }
 });
 
-// Un seul PORT, une seule déclaration
+// Écoute sur le PORT fourni par Railway (ou 8080 en local)
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`✅ Proxy actif sur port ${PORT}`));
