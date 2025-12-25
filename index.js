@@ -1,28 +1,18 @@
 const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+const PORT = process.env.PORT || 3000;
 
-app.post('/upload_data', async (req, res) => {
-  try {
-    await axios.post('https://iot.pcs-agri.com/upload_data', req.body, { maxRedirects: 0 });
-    res.sendStatus(200);
-  } catch {
-    res.sendStatus(500);
+// Configure ton proxy ici
+app.use('/', createProxyMiddleware({
+  target: 'https://ton-site-cible.com', // Change l'URL cible
+  changeOrigin: true,
+  onProxyReq: (proxyReq) => {
+    console.log('Proxying request to:', proxyReq.path);
   }
-});
+}));
 
-app.post('/upload_chunk', async (req, res) => {
-  try {
-    await axios.post('https://iot.pcs-agri.com/upload_chunk', req.body, { maxRedirects: 0 });
-    res.sendStatus(200);
-  } catch {
-    res.sendStatus(500);
-  }
+app.listen(PORT, () => {
+  console.log(`Proxy running on port ${PORT}`);
 });
-
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`✅ Proxy actif sur port ${PORT}`));
